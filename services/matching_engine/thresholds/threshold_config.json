@@ -1,0 +1,8 @@
+{
+  "auto_merge": 0.86,
+  "review": 0.62,
+  "precision_at_auto": 0.992,
+  "recall_at_auto": 0.81,
+  "n_pairs": 4200,
+  "version": "2026-05-04"
+}

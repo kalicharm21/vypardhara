@@ -1,0 +1,65 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database/migrations:/docker-entrypoint-initdb.d
+    ports: ["5432:5432"]
+
+  neo4j:
+    image: neo4j:5-community
+    environment:
+      NEO4J_AUTH: ${NEO4J_USER}/${NEO4J_PASSWORD}
+    volumes:
+      - neo4jdata:/data
+    ports: ["7474:7474", "7687:7687"]
+
+  ingestion:
+    build: ./services/ingestion
+    env_file: .env
+    depends_on: [postgres]
+    ports: ["8001:8001"]
+
+  matching_engine:
+    build: ./services/matching_engine
+    env_file: .env
+    depends_on: [postgres, neo4j]
+    ports: ["8002:8002"]
+
+  vyaparcard:
+    build: ./services/vyaparcard
+    env_file: .env
+    depends_on: [postgres]
+    ports: ["8003:8003"]
+    volumes:
+      - ./secrets:/app/secrets:ro
+
+  livelink:
+    build: ./services/livelink
+    env_file: .env
+    depends_on: [postgres]
+    ports: ["8004:8004"]
+    volumes:
+      - ./secrets:/app/secrets:ro
+
+  activity_engine:
+    build: ./services/activity_engine
+    env_file: .env
+    depends_on: [postgres]
+    ports: ["8005:8005"]
+
+  dashboard:
+    build: ./services/dashboard
+    env_file: .env
+    depends_on: [matching_engine, vyaparcard, livelink, activity_engine]
+    ports: ["3000:3000"]
+
+volumes:
+  pgdata: {}
+  neo4jdata: {}

@@ -1,0 +1,15 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [ingestion, matching_engine, vyaparcard, livelink, activity_engine]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install -r services/${{ matrix.service }}/requirements.txt
+      - run: pip install pytest
+      - run: pytest -q services/${{ matrix.service }}/tests

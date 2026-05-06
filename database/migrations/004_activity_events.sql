@@ -1,0 +1,42 @@
+CREATE TABLE IF NOT EXISTS activity_events (
+  id SERIAL PRIMARY KEY,
+  ubid VARCHAR(32) NOT NULL,
+  dept VARCHAR(64) NOT NULL,
+  event_type VARCHAR(64) NOT NULL,
+  occurred_at TIMESTAMP NOT NULL,
+  payload JSONB
+);
+CREATE INDEX IF NOT EXISTS ix_act_ubid ON activity_events(ubid);
+CREATE TABLE IF NOT EXISTS classifications (
+  id SERIAL PRIMARY KEY,
+  ubid VARCHAR(32) NOT NULL,
+  status VARCHAR(16) NOT NULL,
+  confidence DOUBLE PRECISION NOT NULL,
+  score DOUBLE PRECISION NOT NULL,
+  evidence JSONB NOT NULL,
+  classified_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+CREATE TABLE IF NOT EXISTS checkin_schedules (
+  id SERIAL PRIMARY KEY,
+  ubid VARCHAR(32) UNIQUE NOT NULL,
+  last_verified_at TIMESTAMP,
+  due_at TIMESTAMP NOT NULL,
+  interval_days INT NOT NULL DEFAULT 270
+);
+CREATE TABLE IF NOT EXISTS livelink_sessions (
+  id SERIAL PRIMARY KEY,
+  session_id VARCHAR(32) UNIQUE NOT NULL,
+  ubid VARCHAR(32) NOT NULL,
+  officer_id VARCHAR(64) NOT NULL,
+  started_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  ended_at TIMESTAMP,
+  registered_lat DOUBLE PRECISION NOT NULL,
+  registered_lng DOUBLE PRECISION NOT NULL,
+  integrity_breach BOOLEAN DEFAULT FALSE
+);
+CREATE TABLE IF NOT EXISTS session_reports (
+  id SERIAL PRIMARY KEY,
+  session_id VARCHAR(32) NOT NULL,
+  payload JSONB NOT NULL,
+  generated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);

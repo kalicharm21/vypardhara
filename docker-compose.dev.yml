@@ -1,0 +1,9 @@
+version: "3.9"
+# Dev overrides: hot-reload + bind-mount source.
+services:
+  ingestion:       { volumes: ["./services/ingestion:/app"], command: ["uvicorn","main:app","--host","0.0.0.0","--port","8001","--reload"] }
+  matching_engine: { volumes: ["./services/matching_engine:/app"], command: ["uvicorn","main:app","--host","0.0.0.0","--port","8002","--reload"] }
+  vyaparcard:      { volumes: ["./services/vyaparcard:/app"], command: ["uvicorn","main:app","--host","0.0.0.0","--port","8003","--reload"] }
+  livelink:        { volumes: ["./services/livelink:/app"], command: ["uvicorn","main:app","--host","0.0.0.0","--port","8004","--reload"] }
+  activity_engine: { volumes: ["./services/activity_engine:/app"], command: ["uvicorn","main:app","--host","0.0.0.0","--port","8005","--reload"] }
+  dashboard:       { volumes: ["./services/dashboard:/app","/app/node_modules"], command: ["npm","run","dev"] }
