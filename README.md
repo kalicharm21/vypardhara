@@ -57,7 +57,3 @@ bun dev               # opens dashboard at http://localhost:8080
 | dashboard | 3000 | Next.js / React reviewer console |
 
 See `ARCHITECTURE.md` for the full system design and `database/SCHEMA.md` for the data model.
-
-## License
-
-MIT
