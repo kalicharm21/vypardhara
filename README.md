@@ -26,7 +26,7 @@ vyapardhara/
 └── .github/                # CI workflows
 ```
 
-The frontend in `src/` is a hackathon-ready React + TanStack Start prototype of the reviewer dashboard with **500 mock business records**, the ER review queue, LiveLink viewer, query console, and a fully interactive VyaparCard.
+The frontend in `src/` is a React + TanStack Start prototype of the reviewer dashboard with **500 mock business records**, the ER review queue, LiveLink viewer, query console, and a fully interactive VyaparCard.
 
 ---
 
@@ -38,22 +38,26 @@ cp .env.example .env
 docker-compose up     # starts all 6 services + Postgres + Neo4j
 ```
 
-## Quick start (frontend prototype only)
+# Quick Start (Frontend Prototype)
+
+The hackathon prototype can be run locally with a simple frontend setup.
 
 ```bash
-bun install
-bun dev               # opens dashboard at http://localhost:8080
+npm install
+npm run dev
 ```
 
-## Services
+The application will start locally at:
 
-| Service | Port | Description |
-|---|---|---|
-| ingestion | 8001 | FastAPI — pulls dept records into shadow schema |
-| matching_engine | 8002 | FastAPI — ER signals + UBID registry |
-| vyaparcard | 8003 | FastAPI — card issuance + scan verification |
-| livelink | 8004 | FastAPI + WebSocket — live verification sessions |
-| activity_engine | 8005 | FastAPI — Active/Dormant/Closed classifier |
-| dashboard | 3000 | Next.js / React reviewer console |
+```bash
+http://localhost:3000
+```
 
-See `ARCHITECTURE.md` for the full system design and `database/SCHEMA.md` for the data model.
+This launches the interactive VyaparDhara dashboard prototype containing:
+- Business Portal
+- Government Reviewer Console
+- UBID Review Queue
+- LiveLink Verification Viewer
+- VyaparCard Interface
+- Compliance & Activity Monitoring
+.
