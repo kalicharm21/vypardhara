@@ -36,7 +36,7 @@ export const Route = createRootRoute({
       { property: "og:description", content: "Connecting database truth to physical truth across 40+ Karnataka department systems." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:site", content: "" },
     ],
     links: [
       {
